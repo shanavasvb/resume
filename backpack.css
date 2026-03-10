@@ -1,0 +1,406 @@
+/* ========================================
+   BACKPACK TOOL SYSTEM
+   ======================================== */
+
+/* Weapon Cache Container - Bottom Left */
+.weapon-cache {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+    font-family: var(--font-mono);
+    isolation: isolate;
+    contain: layout style;
+}
+
+/* Cache Toggle Button */
+.cache-toggle {
+    width: 64px;
+    height: 64px;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cache-toggle:hover {
+    transform: scale(1.05);
+    border-color: var(--accent);
+}
+
+.cache-toggle-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+/* Desktop: always show backpack, never show X */
+.cache-toggle-close {
+    display: none;
+}
+
+.cache-toggle-backpack {
+    display: inline;
+}
+
+/* Weapon Tray */
+.weapon-tray {
+    position: absolute;
+    bottom: 74px;
+    left: 0;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 14px;
+    padding: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px) scale(0.95);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.weapon-cache.open .weapon-tray {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+/* Individual Weapon Item */
+.weapon-item {
+    width: 64px;
+    height: 64px;
+    background: var(--accent-dim);
+    border: 2px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.weapon-item:hover {
+    background: var(--accent);
+    transform: scale(1.1);
+}
+
+.weapon-item.active {
+    border-color: var(--accent);
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+}
+
+.weapon-item img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+/* Weapon Tooltip */
+.weapon-item::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--text-main);
+    color: var(--bg-color);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+.weapon-item:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Hammer Cursor Mode */
+
+/* The actual hammer that follows cursor and animates */
+.hammer-cursor {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    pointer-events: none;
+    transform-origin: 64px 64px; /* Rotation pivot at handle end (matches offset) */
+    will-change: transform;
+    z-index: 10000;
+    display: none;
+}
+
+body.hammer-mode .hammer-cursor {
+    display: block;
+}
+
+body.hammer-mode,
+body.hammer-mode * {
+    cursor: none !important;
+}
+
+/* Disable all links and buttons in hammer mode */
+body.hammer-mode a,
+body.hammer-mode button:not(.cache-toggle),
+body.hammer-mode [role="button"],
+body.hammer-mode .portal-card {
+    pointer-events: none;
+}
+
+/* Car Cursor Mode */
+.car-cursor {
+    position: absolute;
+    width: 80px;
+    height: 40px;
+    pointer-events: none;
+    will-change: transform;
+    z-index: 10000;
+    display: none;
+}
+
+body.car-mode .car-cursor {
+    display: block;
+}
+
+body.car-mode,
+body.car-mode * {
+    cursor: none !important;
+}
+
+/* Deployed Car */
+.deployed-car {
+    position: fixed;
+    width: 80px;
+    height: 40px;
+    pointer-events: none;
+    z-index: 9999;
+    transform-origin: center center;
+    will-change: transform, left, top;
+}
+
+.deployed-car img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.deployed-car.bouncing {
+    filter: drop-shadow(0 0 8px var(--accent));
+}
+
+.deployed-car.stunned {
+    filter: drop-shadow(0 0 12px #ff4444) brightness(1.3);
+}
+
+/* Car icon in weapon tray - keep it white and spin */
+.weapon-item .car-icon {
+    filter: none;
+    animation: spin-car 4s linear infinite;
+}
+
+@keyframes spin-car {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Car recall badge */
+.car-recall-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 20px;
+    height: 20px;
+    background: var(--accent);
+    color: var(--bg-color);
+    border-radius: 50%;
+    font-size: 0.7rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse-badge 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-badge {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+
+
+/* Crack Container - In document flow */
+.crack-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 50;
+    overflow: visible;
+}
+
+/* Individual Crack SVG */
+.crack {
+    position: absolute;
+    pointer-events: none;
+    animation: crack-appear 0.15s ease-out forwards;
+}
+
+@keyframes crack-appear {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Impact flash effect */
+.impact-flash {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
+    pointer-events: none;
+    animation: flash-out 0.2s ease-out forwards;
+    z-index: 51;
+}
+
+@keyframes flash-out {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.3);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.5);
+    }
+}
+
+/* Screen shake on impact - only shake main content, not fixed UI */
+@keyframes screen-shake {
+    0%, 100% { transform: translate(0, 0); }
+    20% { transform: translate(-3px, 2px); }
+    40% { transform: translate(3px, -2px); }
+    60% { transform: translate(-2px, 3px); }
+    80% { transform: translate(2px, -3px); }
+}
+
+body.screen-shake .container {
+    animation: screen-shake 0.15s ease-out;
+}
+
+body.screen-shake .system-status-bar {
+    animation: screen-shake 0.15s ease-out;
+}
+
+/* ESC hint when weapon is active - desktop only */
+.weapon-esc-hint {
+    position: fixed;
+    bottom: 94px;
+    left: 20px;
+    color: var(--text-main);
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    z-index: 1001;
+    pointer-events: none;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+body.hammer-mode .weapon-esc-hint,
+body.car-mode .weapon-esc-hint {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Hide ESC hint on mobile */
+@media (max-width: 768px) {
+    .weapon-esc-hint {
+        display: none !important;
+    }
+}
+
+/* Theme adjustments */
+[data-theme="terminal"] .weapon-cache .cache-toggle,
+[data-theme="terminal"] .weapon-tray {
+    border-radius: 0;
+    border-color: var(--accent);
+}
+
+[data-theme="terminal"] .weapon-item {
+    border-radius: 0;
+}
+
+/* Mobile: smaller weapon cache */
+@media (max-width: 768px) {
+    .weapon-cache {
+        bottom: 15px;
+        left: 15px;
+    }
+    
+    .cache-toggle {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .cache-toggle-icon {
+        font-size: 1.5rem;
+    }
+    
+    .weapon-tray {
+        bottom: 60px;
+    }
+    
+    .weapon-item {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .weapon-item img {
+        width: 36px;
+        height: 36px;
+    }
+    
+    /* Mobile: show X when in weapon mode, show backpack otherwise */
+    body.hammer-mode .cache-toggle-backpack,
+    body.car-mode .cache-toggle-backpack {
+        display: none;
+    }
+    
+    body.hammer-mode .cache-toggle-close,
+    body.car-mode .cache-toggle-close {
+        display: inline;
+        font-weight: bold;
+    }
+}

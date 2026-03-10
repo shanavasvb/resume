@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shanavas</title>
+    <meta name="description" content="Interactive Style portfolio for Shanavas.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    
+    <!-- Fonts: JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Theme: pick before CSS to avoid flicker -->
+    <script>
+        (function () {
+            const storageKey = 'selected-theme';
+            const savedTheme = localStorage.getItem(storageKey);
+            const defaultTheme = 'terminal';
+            const theme = savedTheme || defaultTheme;
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="walker.css">
+    <!-- <link rel="stylesheet" href="robot.css"> -->
+    <link rel="stylesheet" href="backpack.css">
+    <!-- <link rel="stylesheet" href="gpu-showcase.css"> -->
+    <!-- <link rel="stylesheet" href="guestbook.css"> -->
+</head>
+<body>
+    <div class="scanline-overlay"></div>
+    <div class="noise-overlay" aria-hidden="true"></div>
+
+
+    <!-- System Status Bar -->
+    <header class="system-status-bar">
+        <div class="status-left">
+            <div class="status-item status-badge open-to-work">
+                <span class="indicator"></span>
+                <span>OPEN TO WORK</span>
+            </div>
+            <div class="status-item" id="location">
+                <span>📍 Kochi, IN</span>
+            </div>
+            <div class="status-item" id="remote">
+                <span>🌐 Remote</span>
+            </div>
+            <div class="status-item" id="relocate">
+                <span>✈️ Able to Relocate</span>
+            </div>
+        </div>
+        <div class="status-right">
+            <div class="status-item">
+                <select id="theme-select" class="theme-select">
+                    <option value="terminal">Theme: Terminal</option>
+                    <option value="editorial">Theme: Editorial</option>
+                </select>
+            </div>
+            <div class="status-item">
+                <span id="clock">00:00:00</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <!-- Hero Section -->
+        <section id="hero" class="hero-section">
+            <div class="hero-ambient" aria-hidden="true"></div>
+            <p class="intro-line" 
+               data-text-simple="Hello, I'm"
+               data-text-terminal="> initiating connection...">
+               Hello, I'm
+            </p>
+            <h1 class="name">Shanavas V Basheer</h1>
+            <h2 class="title" id="typing-title"></h2>
+            </div>
+            
+            <div class="social-links">
+                <a href="mailto:shanavasvbasheer@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                <a href="https://github.com/shanavasvb" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://linkedin.com/in/shanavasvbasheer" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+
+            <div class="hero-stick-walker" aria-hidden="true">
+                <svg class="stick-walker" viewBox="0 0 24 30">
+                    <circle cx="12" cy="5" r="3"></circle>
+                    <line x1="12" y1="8" x2="12" y2="16"></line>
+                    <line class="limb-a arm-a" x1="12" y1="11" x2="7" y2="14"></line>
+                    <line class="limb-b arm-b" x1="12" y1="11" x2="17" y2="14"></line>
+                    <line class="limb-b leg-a" x1="12" y1="16" x2="8" y2="25"></line>
+                    <line class="limb-a leg-b" x1="12" y1="16" x2="16" y2="25"></line>
+                </svg>
+                <div class="sorbet-bubble-cloud">
+                    <span class="sorbet-bubble sorbet-bubble-a"></span>
+                    <span class="sorbet-bubble sorbet-bubble-b"></span>
+                    <span class="sorbet-bubble sorbet-bubble-c"></span>
+                    <span class="sorbet-bubble sorbet-bubble-d"></span>
+                    <span class="sorbet-bubble sorbet-bubble-e"></span>
+                </div>
+                <pre class="ascii-worm" aria-hidden="true"></pre>
+            </div>
+        </section>
+
+        <!-- Divider -->
+        <div class="divider-line reveal reveal-wipe" aria-hidden="true">
+            <div class="divider-glow"></div>
+        </div>
+
+        <!-- Portal Grid -->
+        <section id="portal">
+            <div class="section-header reveal reveal-wipe">
+                <h3 data-text-simple="Portals" data-text-terminal="// PORTAL_ACCESS">
+                    Portals
+                </h3>
+                <div class="section-line"></div>
+            </div>  
+                </div>
+                
+                <!-- Family Directory -->
+                <div class="portal-card reveal reveal-wipe"
+                     data-href="https://3d-lab.fahru.me">
+                    <div class="portal-card-inner">
+                        <div class="card-header">
+                            <span class="card-id">#001</span>
+                            <i class="fas fa-cube card-icon"></i>
+                        </div>
+                        <div class="portal-card-content">
+                            <h4 data-text-simple="Android-project" data-text-terminal="Family Directory">
+                                Family Directory
+                            </h4>
+                            <p>Modern Android app for family management with member profiles, event scheduling, and comprehensive admin dashboard.</p>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+
+                <!-- Blog -->
+                <div class="portal-card reveal reveal-wipe"
+                     data-href="https://blog.fahru.me">
+                    <div class="portal-card-inner">
+                        <div class="card-header">
+                            <span class="card-id">#003</span>
+                            <i class="fas fa-terminal card-icon"></i>
+                        </div>
+                        <div class="portal-card-content">
+                            <h4 data-text-simple="Blog" data-text-terminal="BLOG_LOGS">
+                                Blog
+                            </h4>
+                            <p>My finite's space.</p>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+
+                <!-- Creative -->
+                <div class="portal-card reveal reveal-wipe"
+                     data-href="https://creative.fahru.me">
+                    <div class="portal-card-inner">
+                        <div class="card-header">
+                            <span class="card-id">#004</span>
+                            <i class="fas fa-palette card-icon"></i>
+                        </div>
+                        <div class="portal-card-content">
+                            <h4 data-text-simple="Creative" data-text-terminal="CREATIVE_LAB">
+                                Creative
+                            </h4>
+                            <p>Creative coding experiments & animations.</p>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="portal-card reveal reveal-wipe"
+                     data-href="https://c-playground.fahru.me">
+                    <div class="portal-card-inner">
+                        <div class="card-header">
+                            <span class="card-id">#005</span>
+                            <i class="fas fa-code card-icon"></i>
+                        </div>
+                        <div class="portal-card-content">
+                            <h4 data-text-simple="code-playground" data-text-terminal="CODE_PLAYGROUND">
+                                Code Playground
+                            </h4>
+                            <p>My own custom Code Playground, currently only supports C. Made using Codemirror.</p>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+
+                <!-- GPU Orchestrator -->
+                <div class="portal-card reveal reveal-wipe"
+                     data-href="/gpu-orchestrator/">
+                    <div class="portal-card-inner">
+                        <div class="card-header">
+                            <span class="card-id">#006</span>
+                            <i class="fas fa-server card-icon"></i>
+                        </div>
+                        <div class="portal-card-content">
+                            <h4 data-text-simple="GPU Orchestrator" data-text-terminal="GPU_ORCHESTRATOR">
+                                GPU Orchestrator
+                            </h4>
+                            <p>Open-source GPU orchestration platform with simulated clusters.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resume Section -->
+        <section id="resume">
+            <div class="section-header reveal reveal-wipe">
+                <h3 data-text-simple="Resume" data-text-terminal="// DATA_LOG: RESUME">
+                    Resume
+                </h3>
+                <div class="section-line"></div>
+            </div>
+            
+            <div class="resume-container">
+                <!-- Experience Row -->
+                <div class="resume-row">
+                    <div class="resume-left">
+                        <h4 data-text-simple="Experience" data-text-terminal="WORK_HISTORY">
+                            Experience
+                        </h4>
+                    </div>
+                    <div class="resume-right">
+                        <!-- Overleaf -->
+                        <div class="exp-item reveal reveal-wipe">
+                            <div class="exp-header">
+                                <span class="exp-role">Software Engineer (Full-stack)</span>
+                                <span class="exp-date">2022 -- Nov 2025</span>
+                            </div>
+                            <div class="exp-company">Overleaf</div>
+                            <div class="exp-tech-tags">
+                                <span>React</span><span>Node.js</span><span>Stripe</span><span>BigQuery</span><span>Contentful</span><span>A/B Testing</span>
+                            </div>
+                            <ul class="exp-details">
+                                <li>Designed a migration process to change our payment provider from Recurly to Stripe. I experimented with three different Stripe checkout flows (self-hosted checkout, embedded checkout, and Stripe Elements) before deciding to settle with Stripe self-hosted checkout for its simplicity.</li>
+                                <li>Improved complex GitHub integration flow that involves multiple Overleaf users for a single Overleaf <-> GitHub connection. It resolved a longstanding bug that ended up needing a refactor in our React state and rendering logic.</li>
+                                <li>Improved our custom Contentful (a headless CMS) system to support the increasingly demanding custom pages from the non-development teams.</li>
+                                <li>I was part of the GTM (Growth) team that works with A/B tests in almost everything we do to make sure no changes go undetected and unanalyzed. BigQuery was heavily used. One of the pages—a paywall page for free users—that we tested increased initial revenue by 10%.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Ruangguru -->
+                        <div class="exp-item reveal reveal-wipe">
+                            <div class="exp-header">
+                                <span class="exp-role">Software Engineer (Frontend)</span>
+                                <span class="exp-date">2019 -- 2021</span>
+                            </div>
+                            <div class="exp-company">Ruangguru</div>
+                            <div class="exp-tech-tags">
+                                <span>TypeScript</span><span>React</span><span>ReasonML</span><span>React Native</span><span>Cordova</span><span>A/B Testing</span>
+                            </div>
+                            <ul class="exp-details">
+                                <li>Built a MOOC platform for Indonesian citizens. We had a big government contract and were one of the main government training systems for Indonesian citizens.</li>
+                                <li>Involved in the Growth team by managing multiple A/B tests for the marketing campaign (e.g., discount, bundles).</li>
+                                <li>Introduced TypeScript in a new codebase to replace ReasonML (called ReScript now) after we thought ReasonML was no longer stable to be used in a new project.</li>
+                                <li>Involved in the React Native migration of our Cordova mobile application. (not a direct contributor because I was tasked with maintaining our Cordova mobile app).</li>
+                            </ul>
+                        </div>
+
+                        <!-- Sirius -->
+                        <div class="exp-item reveal reveal-wipe">
+                            <div class="exp-header">
+                                <span class="exp-role">Technical Founder</span>
+                                <span class="exp-date">2019 -- 2020</span>
+                            </div>
+                            <div class="exp-company">Sirius Teknologi Indonesia</div>
+                            <div class="exp-tech-tags">
+                                <span>TypeScript</span><span>React</span><span>React Native</span><span>Azure</span><span>DevOps</span>
+                            </div>
+                            <ul class="exp-details">
+                                <li>I led a team to develop a new digital document system for an Indonesian airline from the ground up. I touched everything in the platform: from database and DevOps with Azure, web-based apps with TypeScript/React, and an Android app with React Native. We used Azure at the client's preference.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Codemi -->
+                        <div class="exp-item reveal reveal-wipe">
+                            <div class="exp-header">
+                                <span class="exp-role">Frontend Engineer</span>
+                                <span class="exp-date">2018 -- 2019</span>
+                            </div>
+                            <div class="exp-company">Codemi</div>
+                            <div class="exp-tech-tags">
+                                <span>JavaScript</span><span>React</span><span>Redux</span><span>MobX</span>
+                            </div>
+                            <ul class="exp-details">
+                                <li>Part of the team that developed an internal training system that is composed of video lectures, quizzes, and reading materials. It was using Javascript/React/Redux/Mobx (yeah, we messed up there by combining Redux and Mobx for the state management, don't remind me of the horror).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Education Row -->
+                <div class="resume-row">
+                    <div class="resume-left">
+                        <h4>EDUCATION</h4>
+                    </div>
+                    <div class="resume-right">
+                        <!-- Georgia Tech -->
+                        <div class="edu-item reveal reveal-wipe">
+                            <div class="exp-header">
+                                <span class="exp-role">PART TIME: Master Degree in Computer Science</span>
+                                <span class="exp-date">2024 - Ongoing</span>
+                            </div>
+                            <div class="exp-company">Georgia Institute of Technology</div>
+                            <p class="exp-description">Specializing in Robotic Perception / Systems</p>
+                            
+                            <div class="course-accordion">
+                                <button class="accordion-toggle" aria-expanded="false">
+                                    <span>View Course Summary</span>
+                                    <i class="fas fa-chevron-down accordion-icon"></i>
+                                </button>
+                                <div class="accordion-content">
+                                    <div class="course-category">
+                                        <h5>Operating Systems</h5>
+                                        <p><strong>CS6200-Graduate Intro to OS:</strong> Multithreaded C web server, distributed filesystem using gRPC/C++. <strong>CS6210-Advanced OS:</strong> Barrier sync analysis using C, libvirt integration, distributed eCommerce system using gRPC/C++, MapReduce implementation using gRPC/C++.</p>
+                                    </div>
+                                    <div class="course-category">
+                                        <h5>Robotics & AI</h5>
+                                        <p><strong>CS7638-Robotics AI:</strong> Kalman Filter, Particle Filter, PID, robot search, and SLAM. <strong>CS8003 O24-Intro to Research:</strong> Soft robotics and swarm robotic research.</p>
+                                    </div>
+                                    <div class="course-category">
+                                        <h5>Artificial Intelligence</h5>
+                                        <p><strong>CS6601-Artificial Intelligence:</strong> Search, Bayes Nets, constraint satisfaction problems, etc. Projects include decision tree/forest, minimax algorithms, hidden Markov models, and Gaussian mixtures.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bandung -->
+                        <div class="edu-item reveal reveal-wipe">
+                            <div class="exp-header">
+                                <span class="exp-role">Aerospace Engineering (B.Eng + Grad Courses)</span>
+                                <span class="exp-date">2012 - 2018</span>
+                            </div>
+                            <div class="exp-company">Bandung Institute of Technology, Indonesia</div>
+                            <p class="exp-description">Completed undergraduate degree with additional graduate-level coursework in aerodynamics and computational methods.</p>
+                            
+                            <div class="course-accordion">
+                                <button class="accordion-toggle" aria-expanded="false">
+                                    <span>View Course Summary</span>
+                                    <i class="fas fa-chevron-down accordion-icon"></i>
+                                </button>
+                                <div class="accordion-content">
+                                    <div class="course-category">
+                                        <h5>Aerodynamics & Fluid Mechanics</h5>
+                                        <p>Incompressible & Compressible Aerodynamics, Computational Aerodynamics, Boundary Layer Theory, Flight Dynamics, Viscous Flow, Turbulent Flow, Computational Fluid Dynamics I & II</p>
+                                    </div>
+                                    <div class="course-category">
+                                        <h5>Structures & Materials</h5>
+                                        <p>Statics, Strength of Materials, Mechanical Vibrations, Aircraft Structures I & II, Aircraft Materials & Manufacturing I & II, Continuum Mechanics I & II</p>
+                                    </div>
+                                    <div class="course-category">
+                                        <h5>Aircraft Systems & Design</h5>
+                                        <p>Aircraft Design, Aircraft Propulsion, Aircraft Systems I & II, Avionics, Control Theory, Advanced Flight Performance, Air Transportation System</p>
+                                    </div>
+                                    <div class="course-category">
+                                        <h5>Mathematics & Computing</h5>
+                                        <p>Engineering Mathematics I & II, Advanced Mathematics I, Statistics, Numerical Methods, Cryptography</p>
+                                    </div>
+                                    <div class="course-category">
+                                        <h5>Research</h5>
+                                        <p>Research Methodology, Minor Research Project, Final Project (Thesis)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skills Row -->
+                <div class="resume-row reveal reveal-wipe">
+                    <div class="resume-left">
+                        <h4 data-text-simple="Skills" data-text-terminal="SKILLS_LIST">
+                            Skills
+                        </h4>
+                    </div>
+                    <div class="resume-right">
+                        <div class="tech-tags">
+                            <span>TypeScript</span>
+                            <span>JavaScript</span>
+                            <span>C++</span>
+                            <span>Python</span>
+                            <span>React</span>
+                            <span>Node.js</span>
+                            <span>Docker</span>
+                            <span>K8s</span>
+                            <span>GCP</span>
+                            <span>Linux</span>
+                            <span>Robotics AI (SLAM)</span>
+                            <span>Distributed Systems</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="terminal-footer">
+            <div class="footer-cmd">
+               
+                <span style="color: inherit" class="cmd-text"
+                      data-text-simple="Would love to chat!"
+                      >
+                      Say Hello at 
+                </span>
+                <span class="footer-email">shanavasvbasheer@gmail.com</span>
+            </div>
+            <p>&copy; <span id="year"></span> 
+                <span data-text-simple="Shanavas" data-text-terminal="Shanavas">Shanavas</span> // 
+            </p>
+        </footer>
+    </main>
+
+    <script src="script.js"></script>
+    <script src="walker.js"></script>
+    <!-- <script src="robot.js"></script> -->
+    <script src="backpack.js"></script>
+    <!-- <script src="gpu-showcase.js"></script> -->
+    <!-- <script src="guestbook.js"></script> -->
+</body>
+</html>

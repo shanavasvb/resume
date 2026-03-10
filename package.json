@@ -1,0 +1,15 @@
+{
+  "name": "resume",
+  "version": "1.0.0",
+  "description": "Shanavas 's Personal website",
+  "scripts": {
+    "deploy": "wrangler pages deploy .",
+    "dev": "python3 -m http.server 8002"
+  },
+  "devDependencies": {
+    "wrangler": "^3.111.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
