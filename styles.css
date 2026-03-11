@@ -2,7 +2,7 @@
     /* Default: Simple Theme */
     --bg-color: #f8f9fa;
     --text-main: #0f172a;
-    --text-muted: #5b6b83;
+    --text-muted: #055bdb;
     --accent: #2563eb;
     --accent-dim: rgba(37, 99, 235, 0.12);
     --accent-2: #f97316;
@@ -32,9 +32,9 @@
 /* Terminal Theme */
 [data-theme="terminal"] {
     --bg-color: #050505;
-    --text-main: #e0e0e0;
-    --text-muted: #6f7782;
-    --accent: #00f3ff;
+    --text-main: #ffffff;
+    --text-muted: #ededed;
+    --accent: #00ff66;
     --accent-dim: rgba(0, 243, 255, 0.12);
     --accent-2: #ff7a18;
     --accent-2-dim: rgba(255, 122, 24, 0.18);
