@@ -795,6 +795,47 @@ a:hover {
     opacity: 0.6;
 }
 
+.resume-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.6rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    color: var(--text-main);
+    margin-bottom: 2rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.resume-download:hover {
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+[data-theme="terminal"] .resume-download {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+[data-theme="terminal"] .resume-download:hover {
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.25), 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="editorial"] .resume-download {
+    border-radius: 0;
+    border-color: #111;
+    color: #111;
+}
+
+[data-theme="editorial"] .resume-download:hover {
+    background: #111;
+    color: #fff;
+}
+
 [data-theme="terminal"] .social-links {
     margin-bottom: 2rem;
 }
@@ -1616,6 +1657,23 @@ section {
     font-size: 0.9rem;
     color: var(--text-muted);
     line-height: 1.5;
+}
+
+.private-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    padding: 0.1rem 0.45rem;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    vertical-align: middle;
+    opacity: 0.75;
+}
+
+[data-theme="terminal"] .private-badge {
+    border-color: rgba(0, 243, 255, 0.3);
 }
 
 .portal-card .card-icon {

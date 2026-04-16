@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const stickWalkerTrack = document.querySelector('.hero-stick-walker');
     const stickWalker = document.querySelector('.stick-walker');
     const sorbetBubbles = document.querySelectorAll('.sorbet-bubble');
-    const asciiWorm = document.querySelector('.ascii-worm');
 
     if (!stickWalkerTrack || !stickWalker) {
         return;
@@ -17,13 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let isSorbetBlowing = false;
     let sorbetStopHandledThisLap = false;
     let gaitPhase = 0;
-    let wormAttemptedThisLap = false;
-    let wormActive = false;
-    let wormStartMs = 0;
-    let wormX = 0;
-    let wormFrameIndex = 0;
-    let wormFrameTimerMs = 0;
-    let wormLastUpdateMs = 0;
+    let snakeActive = false;
+    let snakeAttemptedThisLap = false;
+    let snakeStartMs = 0;
+    let snakeHeadX = 0;
+    let snakeLastUpdateMs = 0;
+    let snakeSegEls = [];
+    let snakeInitialized = false;
 
     const walkerStartX = -30;
     const sorbetPauseProgress = 0.25;
@@ -37,83 +36,95 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     const FULL_TURN = Math.PI * 2;
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const wormBaseFrames = [
-        "  _/\\__/\\__(o>",
-        " _/\\__/\\___(O>",
-        "  _/\\__/\\__(o>",
-        " _/\\__/\\___(0>"
-    ];
-    const wormChompFrames = [
-        "  _/\\__/\\__( 0>",
-        " _/\\__/\\___( 0>",
-        "  _/\\__/\\__( 0>"
-    ];
+    const SNAKE_SEG_COUNT = 20;
+    const SNAKE_SEG_GAP = 7;
+    const SNAKE_WAVE_AMP = 3.5;
+    const SNAKE_WAVE_SPEED = 0.007;
+    const SNAKE_WAVE_PHASE = 0.6;
 
     function isTerminalThemeActive() {
         return getActiveTheme() === 'terminal';
     }
 
-    function setWormActive(active, timestampMs = 0) {
-        if (!asciiWorm) return;
-        wormActive = active;
-        stickWalkerTrack.classList.toggle('worm-active', active);
+    function initSnake() {
+        const container = stickWalkerTrack.querySelector('.ascii-snake');
+        if (!container || snakeInitialized) return;
+        snakeInitialized = true;
+
+        const chars = '●●●●●●○○○○○○········';
+        for (let i = 0; i < SNAKE_SEG_COUNT; i++) {
+            const t = i / (SNAKE_SEG_COUNT - 1);
+            const seg = document.createElement('span');
+            seg.className = 'snake-seg';
+
+            if (i === 0) {
+                seg.classList.add('snake-head');
+                seg.appendChild(document.createTextNode(chars[0]));
+                const tongue = document.createElement('span');
+                tongue.className = 'snake-tongue';
+                tongue.textContent = '~';
+                seg.appendChild(tongue);
+            } else {
+                seg.textContent = chars[Math.min(i, chars.length - 1)];
+            }
+
+            seg.style.fontSize = `${16 - t * 6}px`;
+            seg.style.opacity = `${(1 - t * 0.45).toFixed(2)}`;
+            seg.style.display = 'none';
+            container.appendChild(seg);
+            snakeSegEls.push(seg);
+        }
+    }
+
+    function setSnakeActive(active, timestampMs = 0) {
+        snakeActive = active;
+        stickWalkerTrack.classList.toggle('snake-active', active);
 
         if (!active) {
-            asciiWorm.textContent = '';
+            snakeSegEls.forEach((el) => { el.style.display = 'none'; });
             return;
         }
 
-        wormStartMs = timestampMs;
-        wormFrameTimerMs = timestampMs;
-        wormLastUpdateMs = timestampMs;
-        wormFrameIndex = 0;
-        asciiWorm.textContent = wormBaseFrames[0];
+        snakeStartMs = timestampMs;
+        snakeLastUpdateMs = timestampMs;
+        snakeHeadX = walkerStartX;
+        snakeSegEls.forEach((el) => { el.style.display = ''; });
     }
 
-    function maybeTriggerWormAttack(progress, timestampMs) {
-        if (!asciiWorm || reducedMotionQuery.matches || !isTerminalThemeActive() || wormActive || wormAttemptedThisLap) {
+    function maybeTriggerSnake(progress, timestampMs) {
+        if (reducedMotionQuery.matches || !isTerminalThemeActive() || snakeActive || snakeAttemptedThisLap) {
             return;
         }
+        if (progress < 0.3) return;
 
-        if (progress < 0.3) {
-            return;
-        }
-
-        wormAttemptedThisLap = true;
-        wormX = walkerStartX;
-        setWormActive(true, timestampMs);
+        snakeAttemptedThisLap = true;
+        snakeHeadX = walkerStartX;
+        initSnake();
+        setSnakeActive(true, timestampMs);
     }
 
-    function updateWormVisual(timestampMs) {
-        if (!asciiWorm) return;
-
-        if (!wormActive || !isTerminalThemeActive() || reducedMotionQuery.matches) {
-            setWormActive(false);
+    function updateSnake(timestampMs) {
+        if (!snakeActive || !isTerminalThemeActive() || reducedMotionQuery.matches) {
+            setSnakeActive(false);
             return;
         }
 
-        const deltaSeconds = Math.max(0, (timestampMs - wormLastUpdateMs) / 1000);
-        wormLastUpdateMs = timestampMs;
-        const distanceFromBack = walkerX - wormX;
-        const distanceToWalker = Math.abs(distanceFromBack);
-        const shouldChomp = distanceToWalker < 30;
-        const frames = shouldChomp ? wormChompFrames : wormBaseFrames;
-        const frameTickMs = shouldChomp ? 70 : 95;
+        const deltaSeconds = Math.max(0, (timestampMs - snakeLastUpdateMs) / 1000);
+        snakeLastUpdateMs = timestampMs;
 
-        const slitherSpeed = Math.max(walkerSpeed + 10, shouldChomp ? 82 : 46);
-        wormX += slitherSpeed * deltaSeconds;
+        const distToWalker = Math.abs(walkerX - snakeHeadX);
+        const isClose = distToWalker < 30;
+        const snakeSpeed = Math.max(walkerSpeed + 10, isClose ? 80 : 46);
+        snakeHeadX += snakeSpeed * deltaSeconds;
 
-        if (timestampMs - wormFrameTimerMs > frameTickMs) {
-            wormFrameIndex = (wormFrameIndex + 1) % frames.length;
-            wormFrameTimerMs = timestampMs;
+        for (let i = 0; i < snakeSegEls.length; i++) {
+            const segX = snakeHeadX - i * SNAKE_SEG_GAP;
+            const phase = timestampMs * SNAKE_WAVE_SPEED + i * SNAKE_WAVE_PHASE;
+            const waveY = Math.sin(phase) * SNAKE_WAVE_AMP;
+
+            snakeSegEls[i].style.left = `${segX}px`;
+            snakeSegEls[i].style.transform = `translate3d(0,${waveY.toFixed(1)}px,0)`;
         }
-
-        asciiWorm.textContent = frames[wormFrameIndex];
-        const bobY = Math.sin((timestampMs - wormStartMs) * 0.015) * 1.5;
-        asciiWorm.style.left = `${wormX}px`;
-        asciiWorm.style.transform = `translate3d(0, ${bobY.toFixed(2)}px, 0)`;
-
-        // Worm keeps chasing until lap reset/theme change.
     }
 
     function setWalkerPose(armA, armB, legA, legB) {
@@ -262,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const sorbetStopX = walkerStartX + loopDistance * sorbetPauseProgress;
             const loopProgress = Math.max(0, Math.min(1, (walkerX - walkerStartX) / loopDistance));
 
-            maybeTriggerWormAttack(loopProgress, timestamp);
+            maybeTriggerSnake(loopProgress, timestamp);
 
             if (isSorbetThemeActive()) {
                 const reachedSorbetStop = !sorbetStopHandledThisLap && walkerX >= sorbetStopX;
@@ -286,14 +297,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             walkerX += walkerSpeed * deltaSeconds;
             updateProceduralGait(deltaSeconds);
-            updateWormVisual(timestamp);
+            updateSnake(timestamp);
 
             if (walkerX > loopWidth) {
                 walkerX = walkerStartX;
                 sorbetStopHandledThisLap = false;
                 setSorbetBlowingState(false);
-                wormAttemptedThisLap = false;
-                setWormActive(false);
+                snakeAttemptedThisLap = false;
+                setSnakeActive(false);
             }
 
             stickWalker.style.left = `${walkerX}px`;
@@ -305,8 +316,8 @@ document.addEventListener('DOMContentLoaded', () => {
             stickWalker.style.left = `${walkerStartX}px`;
             stickWalkerTrack.style.setProperty('--walker-x', `${walkerStartX}px`);
             resetWalkerPose();
-            wormAttemptedThisLap = false;
-            setWormActive(false);
+            snakeAttemptedThisLap = false;
+            setSnakeActive(false);
         }
 
         window.requestAnimationFrame(animateStickWalker);
